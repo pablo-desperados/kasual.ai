@@ -1,0 +1,18 @@
+{
+  "name_or_path": "moonshotai/Kimi-K3",
+  "revision": "f831ab66814297da540d832a5235f8e904f29d06",
+  "trust_remote_code": true,
+  "special_tokens": {
+    "bos_token": "[BOS]",
+    "eos_token": "[EOS]",
+    "pad_token": "[PAD]",
+    "unk_token": "[UNK]"
+  },
+    "preprocessor": {
+      "stride":1,
+      "window_size": 4,
+      "pause_s": 3,
+      "embedding_dim": 256
+    }
+
+}

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.DS_Store
+.vscode/
+
+*.pyc
+test_data/*
+data/
+scraper/
+data_scrape.log
