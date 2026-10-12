@@ -1,5 +1,5 @@
 {
-  "name_or_path": "moonshotai/Kimi-K3",
+  "tokenizer_path": "moonshotai/Kimi-K3",
   "revision": "f831ab66814297da540d832a5235f8e904f29d06",
   "trust_remote_code": true,
   "special_tokens": {
@@ -13,6 +13,10 @@
       "window_size": 4,
       "pause_s": 3,
       "embedding_dim": 256
+    },
+    "attention":{
+      "num_heads": 4,
+      "attention_dropout": 0.1,
+      "implementation": "sdpa"
     }
-
 }

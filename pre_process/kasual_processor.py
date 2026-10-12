@@ -10,10 +10,12 @@ files, building corpora and reporting stats belong to the caller.
 
 
 import re
+
 import unicodedata
 from pathlib import Path
+from . import srt, txt
 from transformers import AutoTokenizer
-from . import srt, txt, KasualDataset
+from .kasualconfig import KasualConfig
 
 LAUGHTER, APPLAUSE, GROANS = "[laughter]", "[applause]", "[groans]"
 MARKERS = {"laughter": LAUGHTER, "applause": APPLAUSE, "groans": GROANS}
@@ -73,7 +75,7 @@ class KasualProcessor:
         self.performer = performer
         self.pause_s = pause_s
         self.txt_layout = txt_layout
-        self.manual_config = manual_config
+        self.manual_config: KasualConfig = manual_config
 
     @classmethod
     def from_pretrained(cls, name="gpt2",revision=None, **kwargs):
@@ -146,13 +148,13 @@ class KasualProcessor:
         documents = [d for s in sources or [] for d in self.preprocess(s)]
         documents += [d for d in map(self.clean, text or []) if d]
         if add_eos:
-            eos_token = self.manual_config.get('special_tokens').get('eos_token')
+            eos_token = self.manual_config.special_tokens.eos_token
             documents = [d + eos_token for d in documents]
         kwargs.setdefault("verbose", False)  # specials exceed GPT-2's context; chunking comes later (§2.6)
         return self.tokenizer(documents, return_tensors=return_tensors, **kwargs)
 
-    def decode(self, tokens: KasualDataset  ,*args, **kwargs):
-        return self.tokenizer.decode(tokens.tokens.tolist(), *args, **kwargs)
+    def decode(self, tokens: list[int]  ,*args, **kwargs):
+        return self.tokenizer.decode(tokens, *args, **kwargs)
 
     def batch_decode(self, *args, **kwargs):
         return self.tokenizer.batch_decode(*args, **kwargs)
